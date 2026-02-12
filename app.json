@@ -1,0 +1,58 @@
+{
+  "expo": {
+    "name": "vinobuzz",
+    "slug": "vinobuzz",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icons/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/icons/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F6F1EB"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "ai.vinobuzz.mobile",
+      "infoPlist": {
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLName": "vinobuzz",
+            "CFBundleURLSchemes": [
+              "vinobuzz"
+            ]
+          }
+        ]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icons/adaptive-icon.png",
+        "backgroundColor": "#F6F1EB"
+      },
+      "package": "ai.vinobuzz.mobile",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "vinobuzz",
+              "host": "product"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
+    },
+    "web": {
+      "favicon": "./assets/icons/favicon.png"
+    },
+    "scheme": "vinobuzz"
+  }
+}
