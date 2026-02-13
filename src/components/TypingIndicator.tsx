@@ -1,6 +1,6 @@
-import { Animated, Easing, StyleSheet, View } from 'react-native';
-import { colors } from '../constants/theme';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from "react";
+import { Animated, Easing, StyleSheet, View } from "react-native";
+import { colors } from "../constants/theme";
 
 export const TypingIndicator = () => {
   const first = useRef(new Animated.Value(0.3)).current;
@@ -33,26 +33,36 @@ export const TypingIndicator = () => {
     return () => animations.forEach((item) => item.stop());
   }, [first, second, third]);
 
+  const animatedStyles = useMemo(
+    () =>
+      StyleSheet.create({
+        firstOpacity: { opacity: first as unknown as number },
+        secondOpacity: { opacity: second as unknown as number },
+        thirdOpacity: { opacity: third as unknown as number }
+      }),
+    [first, second, third]
+  );
+
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.dot, { opacity: first }]} />
-      <Animated.View style={[styles.dot, { opacity: second }]} />
-      <Animated.View style={[styles.dot, { opacity: third }]} />
+      <Animated.View style={[styles.dot, animatedStyles.firstOpacity]} />
+      <Animated.View style={[styles.dot, animatedStyles.secondOpacity]} />
+      <Animated.View style={[styles.dot, animatedStyles.thirdOpacity]} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
     gap: 4,
-    justifyContent: 'center'
+    justifyContent: "center",
   },
   dot: {
     backgroundColor: colors.textSecondary,
     borderRadius: 999,
     height: 7,
-    width: 7
-  }
+    width: 7,
+  },
 });

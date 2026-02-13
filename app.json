@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#F6F1EB"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "ai.vinobuzz.mobile",
@@ -21,9 +19,7 @@
         "CFBundleURLTypes": [
           {
             "CFBundleURLName": "vinobuzz",
-            "CFBundleURLSchemes": [
-              "vinobuzz"
-            ]
+            "CFBundleURLSchemes": ["vinobuzz"]
           }
         ]
       }
@@ -43,10 +39,7 @@
               "host": "product"
             }
           ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
+          "category": ["BROWSABLE", "DEFAULT"]
         }
       ]
     },

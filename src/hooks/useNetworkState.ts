@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
-import NetInfo from '@react-native-community/netinfo';
+import NetInfo from "@react-native-community/netinfo";
+import { useEffect, useMemo, useState } from "react";
 
 export const useNetworkState = () => {
   const [isOnline, setIsOnline] = useState(true);
@@ -18,6 +18,6 @@ export const useNetworkState = () => {
     offline,
     isOnline,
     mockOffline,
-    toggleMockOffline: () => setMockOffline((current) => !current)
+    toggleMockOffline: () => setMockOffline((current) => !current),
   };
 };

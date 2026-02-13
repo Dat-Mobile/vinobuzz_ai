@@ -1,6 +1,6 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { colors, radius, spacing } from '../constants/theme';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { colors, radius, spacing } from "../constants/theme";
 
 type OfflineBannerProps = {
   offline: boolean;
@@ -25,10 +25,12 @@ export const OfflineBanner = ({
       <TouchableOpacity onPress={onToggleMockOffline} style={styles.toggleButton}>
         <MaterialCommunityIcons
           color={mockOffline ? colors.danger : colors.textSecondary}
-          name={mockOffline ? 'toggle-switch' : 'toggle-switch-off-outline'}
+          name={mockOffline ? "toggle-switch" : "toggle-switch-off-outline"}
           size={22}
         />
-        <Text style={styles.toggleText}>{mockOffline ? 'Mock Offline: ON' : 'Mock Offline: OFF'}</Text>
+        <Text style={styles.toggleText}>
+          {mockOffline ? "Mock Offline: ON" : "Mock Offline: OFF"}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -36,32 +38,32 @@ export const OfflineBanner = ({
 
 const styles = StyleSheet.create({
   wrapper: {
-    gap: spacing.sm
+    gap: spacing.sm,
   },
   banner: {
-    alignItems: 'center',
+    alignItems: "center",
     backgroundColor: colors.offline,
     borderRadius: radius.md,
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: spacing.sm,
     paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm
+    paddingVertical: spacing.sm,
   },
   bannerText: {
     color: colors.white,
     flex: 1,
     fontSize: 13,
-    fontWeight: '600'
+    fontWeight: "600",
   },
   toggleButton: {
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
     gap: spacing.sm,
-    justifyContent: 'flex-end'
+    justifyContent: "flex-end",
   },
   toggleText: {
     color: colors.textSecondary,
     fontSize: 13,
-    fontWeight: '600'
-  }
+    fontWeight: "600",
+  },
 });
