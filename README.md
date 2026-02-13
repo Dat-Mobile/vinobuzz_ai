@@ -40,7 +40,6 @@ Download apk file at: https://drive.google.com/file/d/1rsiGmbe2F_DGG78yGpObST778
 
 ### Show a banner when offline
 <img src="screenshot-6.png" height="550">
-<br /><br />
 
 ## Implemented features
 
