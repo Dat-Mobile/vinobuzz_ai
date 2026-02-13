@@ -4,7 +4,8 @@ import {
   createNavigationContainerRef,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View } from "react-native";
+import { useCallback, useState } from "react";
+import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ChatOverlay } from "../components/ChatOverlay";
 import { colors } from "../constants/theme";
@@ -39,6 +40,21 @@ export const RootNavigator = ({
   mockOffline,
   onToggleMockOffline,
 }: RootNavigatorProps) => {
+  const [currentRouteName, setCurrentRouteName] = useState<string | undefined>(
+    undefined,
+  );
+
+  const handleNavigationReady = useCallback(() => {
+    setCurrentRouteName(navigationRef.getCurrentRoute()?.name);
+  }, []);
+
+  const handleStateChange = useCallback(() => {
+    if (!navigationRef.isReady()) {
+      return;
+    }
+    setCurrentRouteName(navigationRef.getCurrentRoute()?.name);
+  }, []);
+
   const onViewProductFromChat = (productId: string) => {
     if (!navigationRef.isReady()) {
       return;
@@ -50,12 +66,14 @@ export const RootNavigator = ({
   return (
     <SafeAreaView
       edges={["top"]}
-      style={{ flex: 1, backgroundColor: colors.background }}
+      style={styles.safeArea}
     >
-      <View style={{ flex: 1 }}>
+      <View style={styles.fill}>
         <NavigationContainer
           linking={linking}
           ref={navigationRef}
+          onReady={handleNavigationReady}
+          onStateChange={handleStateChange}
           theme={navTheme}
         >
           <Stack.Navigator
@@ -80,8 +98,21 @@ export const RootNavigator = ({
           </Stack.Navigator>
         </NavigationContainer>
 
-        <ChatOverlay onViewProduct={onViewProductFromChat} />
+        <ChatOverlay
+          disableFloatingButton={currentRouteName === "ProductDetail"}
+          onViewProduct={onViewProductFromChat}
+        />
       </View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  safeArea: {
+    backgroundColor: colors.background,
+    flex: 1,
+  },
+  fill: {
+    flex: 1,
+  },
+});
