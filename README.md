@@ -1,15 +1,10 @@
 # VinoBuzz AI Mobile App Demo
 
-Mobile prototype for the **VinoBuzz Senior Mobile Developer Assessment**.
+Mobile prototype for the **VinoBuzz Senior Mobile Developer Assessment** using Expo 54, React 19.1.0, React Native 0.81.4.
+
+Download apk file at: https://drive.google.com/file/d/1rsiGmbe2F_DGG78yGpObST778KmADaY_/view?usp=sharing
 
 ## Tech stack
-
-### Core
-
-- `expo` `~54.0.13`
-- `react` `19.1.0`
-- `react-native` `0.81.4`
-- `typescript` `~5.9.3`
 
 ### Navigation & platform
 
@@ -29,7 +24,23 @@ Mobile prototype for the **VinoBuzz Senior Mobile Developer Assessment**.
 
 ### Local persistence
 
-- `expo-file-system/legacy` (from Expo SDK) is used as a lightweight local persistence layer for chat history.
+- `expo-file-system` a lightweight local persistence layer for chat history.
+
+## Screenshots
+### Home screen
+<img src="screenshot-1.png" height="550">
+<img src="screenshot-2.png" height="550">
+
+### Product detail screen
+<img src="screenshot-3.png" height="550">
+<img src="screenshot-4.png" height="550">
+
+### AI chat assistant screen
+<img src="screenshot-5.png" height="550">
+
+### Show a banner when offline
+<img src="screenshot-6.png" height="550">
+<br /><br />
 
 ## Implemented features
 
@@ -37,11 +48,9 @@ Mobile prototype for the **VinoBuzz Senior Mobile Developer Assessment**.
 
 - Global chat overlay with 3 states: `hidden`, `minimized`, `expanded`.
 - Assistant persona/UI: typing indicator, styled message bubbles, quick replies, and action message with **View product**.
-- Quick replies send immediately on tap (no extra send tap needed).
 - **Mock assistant reply delay 2–5 seconds** after each user message.
 - Assistant reply can include a product suggestion and `View product` CTA that navigates to product detail.
 - `Under HK$2,000` quick reply returns a real item with `price < 2000`.
-- When tapping `View product` from chat, overlay/bottom sheet is closed before navigation.
 
 ### Chat persistence
 
