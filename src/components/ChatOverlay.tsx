@@ -2,6 +2,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as FileSystem from "expo-file-system/legacy";
 import {
+  Keyboard,
+  KeyboardEvent,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -55,6 +57,7 @@ export const ChatOverlay = ({
   const suggestionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const recommendationIndexRef = useRef(0);
   const messageListRef = useRef<ScrollView>(null);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
   const insets = useSafeAreaInsets();
   const storageUri = useMemo(() => {
     if (!FileSystem.documentDirectory) {
@@ -62,6 +65,7 @@ export const ChatOverlay = ({
     }
     return `${FileSystem.documentDirectory}${CHAT_MESSAGES_FILENAME}`;
   }, []);
+  const isiOS = Platform.OS === "ios";
 
   const showTyping = useMemo(
     () => state === "expanded" && isAssistantTyping,
@@ -78,6 +82,7 @@ export const ChatOverlay = ({
     setState("expanded");
     scrollToBottom(false);
   };
+
   const closeChat = () => setState("hidden");
   const minimize = () => setState("minimized");
 
@@ -180,6 +185,30 @@ export const ChatOverlay = ({
     }
   }, [messages, state, scrollToBottom]);
 
+  useEffect(() => {
+    const showEvent = isiOS ? "keyboardWillShow" : "keyboardDidShow";
+    const hideEvent = isiOS ? "keyboardWillHide" : "keyboardDidHide";
+
+    const onKeyboardShow = (event: KeyboardEvent) => {
+      setKeyboardHeight(event.endCoordinates?.height ?? 0);
+      if (state === "expanded") {
+        requestAnimationFrame(() => scrollToBottom(true));
+      }
+    };
+
+    const onKeyboardHide = () => {
+      setKeyboardHeight(0);
+    };
+
+    const showSub = Keyboard.addListener(showEvent, onKeyboardShow);
+    const hideSub = Keyboard.addListener(hideEvent, onKeyboardHide);
+
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, [scrollToBottom, state]);
+
   const getCurrentTimeLabel = () => {
     const now = new Date();
     const hours = now.getHours().toString().padStart(2, "0");
@@ -262,6 +291,7 @@ export const ChatOverlay = ({
 
   const buttonIcon = iconByState[state];
   const showFloatingButton = !disableFloatingButton && state !== "expanded";
+  const chatKeyboardInset = isiOS ? 0 : keyboardHeight;
 
   return (
     <>
@@ -296,9 +326,9 @@ export const ChatOverlay = ({
 
       {state === "expanded" ? (
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          keyboardVerticalOffset={Platform.OS === "ios" ? 18 : 0}
-          style={styles.sheetWrap}
+          behavior={isiOS ? "padding" : undefined}
+          keyboardVerticalOffset={isiOS ? 18 : 0}
+          style={[styles.sheetWrap, { paddingBottom: chatKeyboardInset }]}
         >
           <View style={styles.sheet}>
             <View style={styles.sheetHeader}>
@@ -328,7 +358,13 @@ export const ChatOverlay = ({
 
             <ScrollView
               ref={messageListRef}
-              contentContainerStyle={styles.messageList}
+              contentContainerStyle={[
+                styles.messageList,
+                {
+                  paddingBottom: spacing.lg,
+                },
+              ]}
+              keyboardShouldPersistTaps="handled"
               onContentSizeChange={() => {
                 if (state === "expanded") {
                   scrollToBottom(false);
@@ -395,9 +431,10 @@ export const ChatOverlay = ({
               ) : null}
             </ScrollView>
 
-            <View>
+            <View style={styles.footerWrap}>
               <ScrollView
                 horizontal
+                keyboardShouldPersistTaps="handled"
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.quickReplyContent}
               >
@@ -605,6 +642,9 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     fontSize: 12,
     fontWeight: "700",
+  },
+  footerWrap: {
+    backgroundColor: colors.surface,
   },
   composer: {
     alignItems: "center",
